@@ -22,20 +22,20 @@ function App() {
   const [error, setError] = useState(null);
 
 
-  const handleGenerate = async () => {
+  const handleGenerate = useCallback(async () => {
     try {
       setIsGenerating(true);
       setError(null);
       setSolution(null);
       setCurrentStepIndex(0);
       setShowPath(false);
-      
+
       const newMaze = await mazeApi.generateMaze(
         mazeSize,
         mazeSize,
         generationAlgorithm
       );
-      
+
       setMaze(newMaze);
     } catch (err) {
       setError('Ошибка генерации лабиринта: ' + err.message);
@@ -43,17 +43,17 @@ function App() {
     } finally {
       setIsGenerating(false);
     }
-  };
+  }, [mazeSize, generationAlgorithm]);
 
-  const handleSolve = async () => {
+ const handleSolve = async () => {
     if (!maze) return;
-    
+
     try {
       setIsSolving(true);
       setError(null);
       setCurrentStepIndex(0);
       setShowPath(false);
-      
+
       const newSolution = await mazeApi.solveMaze(maze.id, pathfindingAlgorithm);
       setSolution(newSolution);
     } catch (err) {
@@ -81,6 +81,7 @@ function App() {
   };
 
   useEffect(() => {
+    
     if (!isPlaying || !solution) return;
 
     const interval = setInterval(() => {
@@ -98,8 +99,9 @@ function App() {
   }, [isPlaying, solution]);
 
   useEffect(() => {
-    handleGenerate();
-  }, []); 
+  handleGenerate();
+}, [handleGenerate]); // ✅ добавили handleGenerate в зависимости
+
 
   const currentStep = solution?.steps[currentStepIndex];
 
