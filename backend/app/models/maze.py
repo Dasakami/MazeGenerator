@@ -5,39 +5,35 @@ from app.database import Base
 
 
 class Maze(Base):
-    """Модель лабиринта"""
     
     __tablename__ = "mazes"
     
     id = Column(Integer, primary_key=True, index=True)
     width = Column(Integer, nullable=False)
     height = Column(Integer, nullable=False)
-    grid = Column(Text, nullable=False)  # JSON строка
+    grid = Column(Text, nullable=False)  
     start_x = Column(Integer, nullable=False)
     start_y = Column(Integer, nullable=False)
     end_x = Column(Integer, nullable=False)
     end_y = Column(Integer, nullable=False)
     algorithm = Column(String(50), nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
-    
-    # Связь с решениями
+
     solutions = relationship("Solution", back_populates="maze", cascade="all, delete-orphan")
 
 
 class Solution(Base):
-    """Модель решения лабиринта"""
     
     __tablename__ = "solutions"
     
     id = Column(Integer, primary_key=True, index=True)
     maze_id = Column(Integer, ForeignKey("mazes.id"), nullable=False)
     algorithm = Column(String(50), nullable=False)
-    path = Column(Text, nullable=False)  # JSON строка
-    steps = Column(Text, nullable=False)  # JSON строка
+    path = Column(Text, nullable=False)  
+    steps = Column(Text, nullable=False)  
     nodes_explored = Column(Integer, nullable=False)
     path_length = Column(Integer, nullable=False)
     execution_time = Column(Float, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
-    # Связь с лабиринтом
     maze = relationship("Maze", back_populates="solutions")

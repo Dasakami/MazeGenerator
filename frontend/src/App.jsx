@@ -5,26 +5,23 @@ import Controls from './components/Controls';
 import Stats from './components/Stats';
 
 function App() {
-  // Состояние лабиринта
   const [maze, setMaze] = useState(null);
   const [solution, setSolution] = useState(null);
-  
-  // Параметры генерации
+
   const [generationAlgorithm, setGenerationAlgorithm] = useState('recursive_backtracking');
   const [pathfindingAlgorithm, setPathfindingAlgorithm] = useState('astar');
   const [mazeSize, setMazeSize] = useState(20);
   
-  // Состояние визуализации
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showPath, setShowPath] = useState(false);
-  
-  // Состояние загрузки
+
+
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSolving, setIsSolving] = useState(false);
   const [error, setError] = useState(null);
 
-  // Генерация лабиринта
+
   const handleGenerate = async () => {
     try {
       setIsGenerating(true);
@@ -48,7 +45,6 @@ function App() {
     }
   };
 
-  // Решение лабиринта
   const handleSolve = async () => {
     if (!maze) return;
     
@@ -68,7 +64,6 @@ function App() {
     }
   };
 
-  // Управление воспроизведением
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying);
   };
@@ -85,7 +80,6 @@ function App() {
     }
   };
 
-  // Автоматическое воспроизведение
   useEffect(() => {
     if (!isPlaying || !solution) return;
 
@@ -98,22 +92,20 @@ function App() {
         }
         return prev + 1;
       });
-    }, 100); // 100ms между шагами
+    }, 100); 
 
     return () => clearInterval(interval);
   }, [isPlaying, solution]);
 
-  // Инициализация - генерация первого лабиринта
   useEffect(() => {
     handleGenerate();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); 
 
   const currentStep = solution?.steps[currentStepIndex];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Заголовок */}
         <header className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
             Генератор Лабиринтов & Поиск Пути
@@ -123,16 +115,13 @@ function App() {
           </p>
         </header>
 
-        {/* Ошибки */}
         {error && (
           <div className="mb-6 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg">
             {error}
           </div>
         )}
 
-        {/* Основной контент */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Панель управления */}
           <div className="lg:col-span-1">
             <Controls
               generationAlgorithm={generationAlgorithm}
@@ -153,7 +142,6 @@ function App() {
             />
           </div>
 
-          {/* Лабиринт */}
           <div className="lg:col-span-2">
             <div className="bg-white p-6 rounded-lg shadow-lg">
               <h2 className="text-xl font-semibold mb-4 text-center">
@@ -177,7 +165,6 @@ function App() {
             </div>
           </div>
 
-          {/* Статистика */}
           <div className="lg:col-span-1">
             {solution ? (
               <Stats solution={solution} currentStepIndex={currentStepIndex} />
@@ -192,7 +179,6 @@ function App() {
           </div>
         </div>
 
-        {/* Информация */}
         <footer className="mt-8 text-center text-gray-600 text-sm">
           <p>
             Курсовая работа: Генератор лабиринтов и поиск пути

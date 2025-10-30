@@ -6,7 +6,6 @@ from app.schemas.maze import MazeResponse, SolutionResponse
 
 
 class MazeRepository:
-    """Репозиторий для работы с лабиринтами в БД"""
     
     def __init__(self, db: Session):
         self.db = db
@@ -20,7 +19,6 @@ class MazeRepository:
         end: tuple,
         algorithm: str
     ) -> Maze:
-        """Создать новый лабиринт"""
         maze = Maze(
             width=width,
             height=height,
@@ -37,11 +35,9 @@ class MazeRepository:
         return maze
     
     def get_maze(self, maze_id: int) -> Optional[Maze]:
-        """Получить лабиринт по ID"""
         return self.db.query(Maze).filter(Maze.id == maze_id).first()
     
     def get_mazes(self, skip: int = 0, limit: int = 10) -> tuple[List[Maze], int]:
-        """Получить список лабиринтов с пагинацией"""
         total = self.db.query(Maze).count()
         mazes = (
             self.db.query(Maze)
@@ -53,7 +49,6 @@ class MazeRepository:
         return mazes, total
     
     def delete_maze(self, maze_id: int) -> bool:
-        """Удалить лабиринт"""
         maze = self.get_maze(maze_id)
         if maze:
             self.db.delete(maze)
@@ -71,7 +66,6 @@ class MazeRepository:
         path_length: int,
         execution_time: float
     ) -> Solution:
-        """Создать решение лабиринта"""
         solution = Solution(
             maze_id=maze_id,
             algorithm=algorithm,
@@ -87,11 +81,9 @@ class MazeRepository:
         return solution
     
     def get_solution(self, solution_id: int) -> Optional[Solution]:
-        """Получить решение по ID"""
         return self.db.query(Solution).filter(Solution.id == solution_id).first()
     
     def get_solutions_for_maze(self, maze_id: int) -> List[Solution]:
-        """Получить все решения для лабиринта"""
         return (
             self.db.query(Solution)
             .filter(Solution.maze_id == maze_id)
@@ -101,7 +93,6 @@ class MazeRepository:
     
     @staticmethod
     def maze_to_response(maze: Maze) -> dict:
-        """Преобразовать модель Maze в ответ"""
         return {
             "id": maze.id,
             "width": maze.width,
@@ -115,7 +106,6 @@ class MazeRepository:
     
     @staticmethod
     def solution_to_response(solution: Solution) -> dict:
-        """Преобразовать модель Solution в ответ"""
         return {
             "id": solution.id,
             "maze_id": solution.maze_id,

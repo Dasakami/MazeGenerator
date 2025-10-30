@@ -11,8 +11,6 @@ settings = get_settings()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Lifecycle events"""
-    # Startup
     init_db()
     yield
     pass
@@ -25,7 +23,6 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
@@ -34,13 +31,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Подключение роутов
 app.include_router(maze.router)
 
 
 @app.get("/")
 async def root():
-    """Корневой эндпоинт"""
     return {
         "message": "Maze Generator & Pathfinding API",
         "version": settings.APP_VERSION,
@@ -54,7 +49,6 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    """Health check эндпоинт"""
     return {"status": "healthy"}
 
 

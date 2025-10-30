@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 class MazeGenerateRequest(BaseModel):
-    """Запрос на генерацию лабиринта"""
     width: int = Field(ge=5, le=100, description="Ширина лабиринта")
     height: int = Field(ge=5, le=100, description="Высота лабиринта")
     algorithm: str = Field(default="recursive_backtracking", description="Алгоритм генерации")
@@ -19,7 +18,6 @@ class MazeGenerateRequest(BaseModel):
 
 
 class MazeSolveRequest(BaseModel):
-    """Запрос на решение лабиринта"""
     algorithm: str = Field(default="astar", description="Алгоритм поиска")
     
     @field_validator('algorithm')
@@ -32,7 +30,6 @@ class MazeSolveRequest(BaseModel):
 
 
 class MazeResponse(BaseModel):
-    """Ответ с данными лабиринта"""
     id: int
     width: int
     height: int
@@ -47,21 +44,18 @@ class MazeResponse(BaseModel):
 
 
 class PathfindingStep(BaseModel):
-    """Шаг алгоритма поиска"""
     current: Tuple[int, int]
     visited: List[Tuple[int, int]]
     frontier: List[Tuple[int, int]]
 
 
 class SolutionStats(BaseModel):
-    """Статистика решения"""
     nodes_explored: int
     path_length: int
     execution_time: float
 
 
 class SolutionResponse(BaseModel):
-    """Ответ с решением лабиринта"""
     id: int
     maze_id: int
     algorithm: str
@@ -75,7 +69,6 @@ class SolutionResponse(BaseModel):
 
 
 class MazeListResponse(BaseModel):
-    """Список лабиринтов"""
     items: List[MazeResponse]
     total: int
     page: int

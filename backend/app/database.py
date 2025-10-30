@@ -6,22 +6,18 @@ from app.config import get_settings
 
 settings = get_settings()
 
-# Создание движка БД
 engine = create_engine(
     settings.DATABASE_URL,
-    connect_args={"check_same_thread": False},  # Для SQLite
+    connect_args={"check_same_thread": False},  
     echo=settings.DEBUG
 )
 
-# Сессия БД
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Базовый класс для моделей
 Base = declarative_base()
 
 
 def get_db() -> Generator[Session, None, None]:
-    """Dependency для получения сессии БД"""
     db = SessionLocal()
     try:
         yield db
@@ -30,5 +26,4 @@ def get_db() -> Generator[Session, None, None]:
 
 
 def init_db() -> None:
-    """Инициализация БД"""
     Base.metadata.create_all(bind=engine)

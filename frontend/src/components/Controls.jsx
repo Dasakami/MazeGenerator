@@ -20,7 +20,6 @@ const Controls = ({
 }) => {
   return (
     <div className="space-y-6 bg-white p-6 rounded-lg shadow-lg">
-      {/* Генерация лабиринта */}
       <div>
         <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
           <Grid size={20} />
@@ -69,7 +68,6 @@ const Controls = ({
         </div>
       </div>
 
-      {/* Поиск пути */}
       <div className="border-t pt-6">
         <h3 className="text-lg font-semibold mb-3">Поиск пути</h3>
         
@@ -100,7 +98,6 @@ const Controls = ({
         </div>
       </div>
 
-      {/* Визуализация */}
       {hasSolution && (
         <div className="border-t pt-6">
           <h3 className="text-lg font-semibold mb-3">Визуализация</h3>
@@ -141,7 +138,6 @@ const Controls = ({
         </div>
       )}
 
-      {/* Легенда */}
       <div className="border-t pt-6">
         <h3 className="text-sm font-semibold mb-2">Легенда</h3>
         <div className="space-y-1 text-sm">

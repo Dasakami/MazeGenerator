@@ -34,7 +34,6 @@ export const mazeApi = {
     return response.data;
   },
 
-  // Решить лабиринт
   solveMaze: async (mazeId, algorithm) => {
     const response = await api.post(`/api/maze/${mazeId}/solve`, {
       algorithm,
@@ -42,13 +41,11 @@ export const mazeApi = {
     return response.data;
   },
 
-  // Получить решения лабиринта
   getMazeSolutions: async (mazeId) => {
     const response = await api.get(`/api/maze/${mazeId}/solutions`);
     return response.data;
   },
 
-  // Удалить лабиринт
   deleteMaze: async (mazeId) => {
     const response = await api.delete(`/api/maze/${mazeId}`);
     return response.data;

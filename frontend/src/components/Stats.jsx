@@ -20,7 +20,6 @@ const Stats = ({ solution, currentStepIndex }) => {
       <h3 className="text-lg font-semibold mb-4">Статистика</h3>
       
       <div className="space-y-4">
-        {/* Алгоритм */}
         <div>
           <div className="text-sm text-gray-600 mb-1">Алгоритм</div>
           <div className="text-lg font-semibold text-blue-600">
@@ -28,7 +27,6 @@ const Stats = ({ solution, currentStepIndex }) => {
           </div>
         </div>
 
-        {/* Прогресс визуализации */}
         <div>
           <div className="flex justify-between text-sm text-gray-600 mb-1">
             <span>Прогресс визуализации</span>
@@ -45,7 +43,6 @@ const Stats = ({ solution, currentStepIndex }) => {
           </div>
         </div>
 
-        {/* Статистика */}
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-blue-50 p-3 rounded-lg">
             <div className="flex items-center gap-2 text-blue-600 mb-1">
@@ -89,8 +86,6 @@ const Stats = ({ solution, currentStepIndex }) => {
             </div>
           </div>
         </div>
-
-        {/* Информация об алгоритме */}
         <div className="bg-gray-50 p-3 rounded-lg text-sm">
           <div className="font-medium mb-1">О алгоритме:</div>
           <div className="text-gray-600">

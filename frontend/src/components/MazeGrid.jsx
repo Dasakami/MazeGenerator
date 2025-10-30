@@ -6,7 +6,6 @@ const MazeGrid = ({ maze, solution, currentStep, showPath }) => {
   const { grid, start, end } = maze;
   const cellSize = Math.min(600 / maze.width, 600 / maze.height);
 
-  // Создать set для быстрой проверки
   const pathSet = new Set(
     solution?.path?.map(([x, y]) => `${x},${y}`) || []
   );
@@ -21,26 +20,18 @@ const MazeGrid = ({ maze, solution, currentStep, showPath }) => {
 
   const getCellColor = (x, y, cell) => {
     const key = `${x},${y}`;
-    
-    // Стартовая и конечная точки
     if (x === start[0] && y === start[1]) return 'bg-green-500';
     if (x === end[0] && y === end[1]) return 'bg-red-500';
     
-    // Путь (если показываем финальный путь)
     if (showPath && pathSet.has(key)) return 'bg-blue-400';
     
-    // Текущая клетка
     if (currentStep && x === currentStep.current[0] && y === currentStep.current[1]) {
       return 'bg-yellow-400 animate-pulse';
     }
     
-    // Frontier (клетки на рассмотрении)
     if (frontierSet.has(key)) return 'bg-purple-300';
     
-    // Посещенные клетки
     if (visitedSet.has(key)) return 'bg-blue-200';
-    
-    // Стена или путь
     return cell === 1 ? 'bg-gray-800' : 'bg-white';
   };
 

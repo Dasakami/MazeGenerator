@@ -3,7 +3,6 @@ from typing import List, Tuple, Set
 
 
 class MazeGenerator:
-    """Сервис генерации лабиринтов"""
     
     WALL = 1
     PATH = 0

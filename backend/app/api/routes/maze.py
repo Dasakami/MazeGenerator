@@ -22,19 +22,10 @@ async def generate_maze(
     request: MazeGenerateRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Генерация нового лабиринта
-    
-    - **width**: ширина лабиринта (5-100)
-    - **height**: высота лабиринта (5-100)
-    - **algorithm**: алгоритм генерации (recursive_backtracking, prims, kruskals)
-    """
     try:
-        # Генерация лабиринта
         generator = MazeGenerator(request.width, request.height)
         grid, start, end = generator.generate(request.algorithm)
         
-        # Сохранение в БД
         repo = MazeRepository(db)
         maze = repo.create_maze(
             width=request.width,
@@ -56,9 +47,6 @@ async def get_maze(
     maze_id: int,
     db: Session = Depends(get_db)
 ):
-    """
-    Получить лабиринт по ID
-    """
     repo = MazeRepository(db)
     maze = repo.get_maze(maze_id)
     
@@ -74,9 +62,6 @@ async def get_mazes(
     size: int = Query(10, ge=1, le=100, description="Размер страницы"),
     db: Session = Depends(get_db)
 ):
-    """
-    Получить список лабиринтов с пагинацией
-    """
     repo = MazeRepository(db)
     skip = (page - 1) * size
     mazes, total = repo.get_mazes(skip=skip, limit=size)
@@ -97,11 +82,6 @@ async def solve_maze(
     request: MazeSolveRequest,
     db: Session = Depends(get_db)
 ):
-    """
-    Решить лабиринт с помощью алгоритма поиска
-    
-    - **algorithm**: алгоритм поиска (bfs, dfs, astar)
-    """
     repo = MazeRepository(db)
     maze = repo.get_maze(maze_id)
     
@@ -109,17 +89,14 @@ async def solve_maze(
         raise HTTPException(status_code=404, detail="Лабиринт не найден")
     
     try:
-        # Парсинг данных лабиринта
         import json
         grid = json.loads(maze.grid)
         start = (maze.start_x, maze.start_y)
         end = (maze.end_x, maze.end_y)
         
-        # Поиск пути
         pathfinder = PathFinder(grid, start, end)
         result = pathfinder.find_path(request.algorithm)
         
-        # Сохранение решения
         solution = repo.create_solution(
             maze_id=maze_id,
             algorithm=request.algorithm,
@@ -141,9 +118,6 @@ async def get_maze_solutions(
     maze_id: int,
     db: Session = Depends(get_db)
 ):
-    """
-    Получить все решения для лабиринта
-    """
     repo = MazeRepository(db)
     maze = repo.get_maze(maze_id)
     
@@ -159,9 +133,6 @@ async def delete_maze(
     maze_id: int,
     db: Session = Depends(get_db)
 ):
-    """
-    Удалить лабиринт
-    """
     repo = MazeRepository(db)
     success = repo.delete_maze(maze_id)
     
